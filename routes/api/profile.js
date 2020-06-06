@@ -215,4 +215,72 @@ router.delete('/experience/:exp_id', auth, async (req,res)=>{
     }
 })
 
+//@route    Put api/profile/education
+//@desc     Add education
+//@access   private
+router.put('/education',[auth, 
+    [
+        check('school','School is required').not().isEmpty(),
+        check('degree','Degree is required').not().isEmpty(),
+        check('from','From date is required').not().isEmpty(),
+        check('fieldofstudy','Field of study is required').not().isEmpty()
+    ]
+], 
+async (req,res)=>{
+    const erros = validationResult(req)
+    if(!erros.isEmpty()){
+        return res.status(400).json({erros: errors.array()})
+    }
+
+    //pull stuff out
+    const {school,degree,fieldofstudy,from,to,current,description} = req.body;
+
+
+    //create new experience obj
+    const newEdu = {
+        school,degree,fieldofstudy,
+        from,
+        to,
+        current,
+        description
+    }
+
+    try {
+        const profile = await Profile.findOne({ user: req.user.id})
+        profile.education.unshift(newEdu)
+        await profile.save()
+
+        res.json(profile)
+        
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error')
+        
+    }
+
+})
+
+//@route    Delete api/profile/education/:exp_id
+//@desc     delete profile education
+//@access   private
+router.delete('/education/:exp_id', auth, async (req,res)=>{
+    try {
+        const profile = await Profile.findOne({user:req.user.id})
+        //get correct exp to remove
+        const removeIndex = profile.education.map(item => item.id).indexOf(req.params.exp_id)
+
+        profile.education.splice(removeIndex, 1)
+        await profile.save()
+
+        res.json(profile)
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error')
+        
+        
+    }
+})
+
+
 module.exports = router;
