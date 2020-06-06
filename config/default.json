@@ -1,4 +1,6 @@
 {
     "mongoURI": "mongodb://test1234:test1234@cluster0-shard-00-00-zyffl.mongodb.net:27017,cluster0-shard-00-01-zyffl.mongodb.net:27017,cluster0-shard-00-02-zyffl.mongodb.net:27017/cluster0?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",
-    "jwtSecret": "JJsb03082001"
+    "jwtSecret": "JJsb03082001",
+    "githubClientId": "68fe5191dd071f1b77be",
+    "githubSecret": "68013dcc44143aa4bd80cd3ce3b5c8c6a1b61327"
 }
