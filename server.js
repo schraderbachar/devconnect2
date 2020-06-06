@@ -7,11 +7,15 @@ const postsRoute = require('./routes/api/posts');
 
 
 
+
 const app = express()
 
 //connect DB from db.js file
 connectDB();
 
+
+//init middleware for req.body
+app.use(express.json({extended: false}))
 
 app.get('/',(req,res) => {
     res.send('api up')
