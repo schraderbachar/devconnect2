@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const { check, validationResult} = require('express-validator')
 const auth = require('../../middleware/auth')
-
 const Post = require('../../models/Post')
 const User = require('../../models/User')
 const Profile = require('../../models/Profile')
@@ -18,7 +17,7 @@ router.post('/',[auth, [
         return res.status(400).json({errors: errors.array()})
     }
     try {
-        const user = await User.findById(req.user.id).selected('-password')
+        const user = await User.findById(req.user.id).select('-password')
 
     const newPost = new Post({
         text: req.body.text,
